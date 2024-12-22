@@ -20,19 +20,20 @@ jobs:
         with:
           python-version: '3.12'  # Altere para a versão do Python que você está usando
 
-      - name: Change directory to backend
-        run: cd backend
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           make install-dev
+        working-directory: backend  # Executa os comandos dentro do diretório backend
 
       - name: Run Ruff
         run: ruff check .  # Executa o Ruff na pasta backend
+        working-directory: backend  # Executa os comandos dentro do diretório backend
 
       - name: Run Mypy
         run: mypy .  # Executa o Mypy na pasta backend
+        working-directory: backend  # Executa os comandos dentro do diretório backend
 
       - name: Run Bandit
         run: bandit -r .  # Executa o Bandit na pasta backend
+        working-directory: backend  # Executa os comandos dentro do diretório backend
