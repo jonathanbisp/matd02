@@ -3,7 +3,7 @@ name: Python Lint and Type Check
 on:
   push:
     branches:
-      - main  # Altere para o branch desejado
+      - '*'
     paths:
       - backend/**  # Gatilho apenas para mudanças na pasta backend
 
