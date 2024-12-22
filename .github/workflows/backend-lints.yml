@@ -1,0 +1,38 @@
+name: Python Lint and Type Check
+
+on:
+  push:
+    branches:
+      - main  # Altere para o branch desejado
+    paths:
+      - backend/**  # Gatilho apenas para mudanças na pasta backend
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'  # Altere para a versão do Python que você está usando
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          make install-dev
+
+      - name: Change directory to backend
+        run: cd backend
+
+      - name: Run Ruff
+        run: ruff check .  # Executa o Ruff na pasta backend
+
+      - name: Run Mypy
+        run: mypy .  # Executa o Mypy na pasta backend
+
+      - name: Run Bandit
+        run: bandit -r .  # Executa o Bandit na pasta backend

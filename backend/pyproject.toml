@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "matd02-backend"
+version = "0.1.0"
+description = "Backend da aplicação de gestão de Carga Horária Complementar e Extensão para a disciplina MATD02 Ministrada pelo Professor: Cláudio Nogueira Sant`Anna"
+authors = ["Jonathan Bispo <jonathanbispo.pessoal@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.6"
+pydantic = "^2.10.4"
+sqlalchemy = "^2.0.36"
+python-dotenv = "^1.0.1"
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.8.4"
+mypy = "^1.14.0"
+bandit = "^1.8.0"
+poetry = "^1.8.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
