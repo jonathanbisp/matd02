@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copiando os arquivos de requisitos e o Makefile
 COPY requirements.txt .
-COPY Makefile .
+COPY makefile .
 
 # Instalando dependências do sistema
 RUN apt-get update && apt-get install -y make
