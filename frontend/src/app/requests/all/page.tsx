@@ -26,7 +26,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {Input} from "@/components/ui/input"
@@ -151,6 +150,7 @@ const columns: ColumnDef<Request>[] = [
         cell: ({row}) => {
             const payment = row.original
 
+            const status = row.getValue("status")
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -164,7 +164,7 @@ const columns: ColumnDef<Request>[] = [
                         <DropdownMenuItem
                             onClick={() => navigator.clipboard.writeText(payment.id)}
                         >
-                            Avaliar
+                            { status === "APPROVED" ? "Visualizar" : "Avaliar"}
                         </DropdownMenuItem>
                         {/*<DropdownMenuSeparator />*/}
                         {/*<DropdownMenuItem>View customer</DropdownMenuItem>*/}
