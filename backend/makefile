@@ -32,7 +32,7 @@ run:
 
 # Executa o servidor FastAPI em modo de desenvolvimento
 dev:
-	uvicorn app.main:app --workers 1 --port 8000 --reload --log-level debug
+	uvicorn app:app --workers 1 --port 8000 --reload --log-level debug
 
 # Adiciona uma nova dependência usando Poetry
 add-dependency:
