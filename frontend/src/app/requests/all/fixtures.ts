@@ -21,6 +21,15 @@ const categories = [
     "Projeto Integrador",
 ];
 
+const shortDescriptions = [
+    "Participação WEPGCOMP",
+     "Doação de Sangue",
+    "Monitoria voluntária",
+    "Vacina COVID",
+    "IGEO12 Pedras Rupestres",
+    "Campus Party"
+]
+
 export const data = Array.from({ length: 20 }, (_, i) => ({
     id: `random-id-${i + 1}`,
     publicId: `SOL-891${i + 1}`,
@@ -28,6 +37,7 @@ export const data = Array.from({ length: 20 }, (_, i) => ({
     fullName: getRandomElement(fullNames),
     status: getRandomElement(statuses),
     category: getRandomElement(categories),
+    shortDescription: getRandomElement(shortDescriptions),
     createdAt: new Date(
         new Date(2023, 0, 1).getTime() +
         Math.random() * (new Date().getTime() - new Date(2023, 0, 1).getTime())

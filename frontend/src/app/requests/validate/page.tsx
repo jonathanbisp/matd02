@@ -44,8 +44,6 @@ import {Progress} from "@/components/ui/progress";
 
 const formSchema = z.object({
     category: z.string(),
-    start: z.date(),
-    end: z.date(),
     subcategory: z.string(),
     activity: z.string(),
     activityHours: z.number(),
@@ -56,9 +54,7 @@ const formSchema = z.object({
 })
 
 function NewRequest(props: any) {
-    const [start, setStart] = React.useState<Date | undefined>(new Date())
-    const [end, setEnd] = React.useState<Date | undefined>(new Date())
-
+    const [date, setDate] = React.useState<Date | undefined>(new Date())
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -70,7 +66,8 @@ function NewRequest(props: any) {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-
+        // Do something with the form values.
+        // ✅ This will be type-safe and validated.
         console.log(values)
     }
     return (
@@ -192,7 +189,7 @@ function NewRequest(props: any) {
                     <div className={"flex flex-row justify-between mt-5"}>
                         <FormField
                             control={form.control}
-                            name="start"
+                            name="activity"
                             render={({ field }) => (
                                 <FormItem className={"w-1/4"}>
                                     <FormLabel className={"font-semibold"}>Inicio da Atividade</FormLabel>
@@ -204,18 +201,18 @@ function NewRequest(props: any) {
                                                     variant={"outline"}
                                                     className={cn(
                                                         "w-[280px] justify-start text-left font-normal",
-                                                        !start && "text-muted-foreground"
+                                                        !date && "text-muted-foreground"
                                                     )}
                                                 >
                                                     <CalendarIcon />
-                                                    {start ? format(start, "PPP") : <span>Selecione uma data</span>}
+                                                    {date ? format(date, "PPP") : <span>Selecione uma data</span>}
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={start}
-                                                    onSelect={setStart}
+                                                    selected={date}
+                                                    onSelect={setDate}
                                                 />
                                             </PopoverContent>
                                         </Popover>
@@ -227,7 +224,7 @@ function NewRequest(props: any) {
 
                         <FormField
                             control={form.control}
-                            name="end"
+                            name="activity"
                             render={({ field }) => (
                                 <FormItem className={"w-1/4"}>
                                     <FormLabel className={"font-semibold"}>Fim da Atividade</FormLabel>
@@ -239,18 +236,18 @@ function NewRequest(props: any) {
                                                     variant={"outline"}
                                                     className={cn(
                                                         "w-[280px] justify-start text-left font-normal",
-                                                        !end && "text-muted-foreground"
+                                                        !date && "text-muted-foreground"
                                                     )}
                                                 >
                                                     <CalendarIcon />
-                                                    {end ? format(end, "PPP") : <span>Selecione uma data</span>}
+                                                    {date ? format(date, "PPP") : <span>Selecione uma data</span>}
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0">
                                                 <Calendar
                                                     mode="single"
-                                                    selected={end}
-                                                    onSelect={setEnd}
+                                                    selected={date}
+                                                    onSelect={setDate}
                                                 />
                                             </PopoverContent>
                                         </Popover>
@@ -306,19 +303,34 @@ function NewRequest(props: any) {
                                         <Textarea placeholder="Uma longa descrição da atividade..." />
                                     </FormControl>
                                     <FormMessage />
-                                    <span className={"text-xs text-gray-500"}>Apenas 500 caracteres.</span>
                                 </FormItem>
                             )}
                         />
                     </div>
 
-                    <div className={"flex flex-row justify-end mt-5"}>
-                        <Button type="submit" className={"mr-5"}>Anexar Comprovantes</Button>
-                        <Button type="submit">Submeter</Button>
+                    <div className={"mt-5"}>
+                        <Button type="submit">Ver Comprovantes</Button>
 
                     </div>
                     </Card>
 
+
+                    <Card className={"px-10 py-5"}>
+                        <FormLabel className={"font-semibold"}>Ultimas Solicitações</FormLabel>
+                        <OlderRequests />
+                    </Card>
+
+
+                    <Card className={"px-10 py-5"}>
+                        <FormLabel className={"font-semibold"}>Carga Horária Contabilizada</FormLabel>
+                        <Progress value={75} />
+
+                        <span className={"text-sm text-gray-500"}>75 / 100 Horas</span>
+                    </Card>
+
+
+
+                    <Button type="submit">Enviar</Button>
                 </form>
             </Form>
         </div>
