@@ -68,7 +68,7 @@ const columns: ColumnDef<Request>[] = [
         accessorKey: "publicId",
         header: "ID",
         cell: ({row}) => (
-            <div className="capitalize">{row.getValue("publicId")}</div>
+            <div className="capitalize font-mono">{row.getValue("publicId")}</div>
         ),
     },
     {
