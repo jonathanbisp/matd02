@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {JSX} from 'react';
 import {Task} from "@/app/types";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 
 
 type FormProps = {
-    onAdd: (data: Task) => void
-    length: number
+    onAdd: (data: Omit<Task, 'id'>) => void
 }
 function Form(props: FormProps) {
-    const {length, onAdd} = props
-    const [task, setTask] = React.useState<Task>({id: length + 1, executionTime: 1, deadline: 1, color: 'black'});
+    const { onAdd} = props
+    const [task, setTask] = React.useState<Omit<Task, 'id'>>({executionTime: 1, deadline: 1, color: 'black'});
 
     const handleUpdate = (id: string, value: any) => {
         //@ts-ignore
@@ -18,12 +17,7 @@ function Form(props: FormProps) {
     }
 
     return (
-        <form className={"flex w-full justify-evenly"}>
-            <label htmlFor="id">
-                ID
-                <Input type="number" id={"id"} placeholder={"ID"} value={length + 1} disabled/>
-            </label>
-
+        <form className={"flex w-full justify-between bg-gray-300 p-5 mb-5"}>
             <label htmlFor="executionTime">
                 Execution time
                 <Input type="number" id={"executionTime"} placeholder={"executionTime"} defaultValue={task.executionTime} onChange={e => handleUpdate("executionTime", Number(e.target.value))}/>
@@ -39,7 +33,7 @@ function Form(props: FormProps) {
                 <Input type="color" id={"color"} placeholder={"color"} defaultValue={task.color} onChange={e => handleUpdate("color", e.target.value)}/>
             </label>
 
-            <Button type={"button"} onClick={() => onAdd(task)}>Add</Button>
+            <Button type={"button"} size={'icon'} onClick={() => onAdd(task)}>Add</Button>
         </form>
     );
 }

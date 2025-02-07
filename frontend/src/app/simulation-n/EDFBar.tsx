@@ -8,17 +8,20 @@ const lcm = (a: number, b:number) => {
     return (a * b) / gcd(a, b);
 };
 
-const calculateHyperperiod = (tasks) => {
-    return tasks.map((task) => task.deadline).reduce((acc, deadline) => lcm(acc, deadline), 2);
+const calculateHyperperiod = (tasks, repetitions) => {
+    const t = tasks.map((task) => task.deadline).reduce((acc, deadline) => lcm(acc, deadline), 1);
+    return (t * repetitions)
 };
 
 
-function EdfBar({tasks}: {tasks: Task[]}) {
-    const hyperperiod = calculateHyperperiod(tasks);
+function EdfBar({tasks, repetitions}: {tasks: Task[], repetitions: number}) {
+    const hyperperiod = calculateHyperperiod(tasks, repetitions);
 
     const scheduleEDF = () => {
         const timeline = [];
         let currentTime = 0;
+
+        console.log({tasks})
 
         // Initialize task state
         tasks.forEach((task) => {
@@ -131,10 +134,13 @@ function EdfBar({tasks}: {tasks: Task[]}) {
         },
     };
 
+    const schedulable = timeline.filter(t => t.isLate).length > 0
     return (
+
         <div style={{height: 700, maxHeight: 700}} className={"w-5/6"}>
             <h1>EDF Scheduling (Bar Chart)</h1>
             <Bar data={chartData} options={options} className={'w-5/6'}/>
+            {schedulable && (<h2 className={"font-bold text-red-400 text-2xl"}> Não escalonável</h2>)}
         </div>
     );
 }

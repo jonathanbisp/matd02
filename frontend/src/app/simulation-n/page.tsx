@@ -11,15 +11,16 @@ import List from "@/app/simulation-n/list";
 import {data} from "@/app/requests/all/fixtures";
 import {ChartData} from "@/utils";
 import EDFBar from "@/app/simulation-n/EDFBar";
+import {Input} from "@/components/ui/input";
 
 // Register Chart.js components
 Chart.register(BarController, BarElement, LinearScale, CategoryScale, Tooltip, annotationPlugin);
 
 
 
-
-
 const App = () => {
+
+    const [repetitions, setRepetitions] = useState(1);
     // Define tasks: (execution time, deadline)
     const t: Task[] = [
         { id: 1, executionTime: 2, deadline: 4, color: "blue" },
@@ -36,16 +37,32 @@ const App = () => {
     }
 
     return (
-        <div style={{ width: "80%", margin: "auto" }}>
-            <Form onAdd={(data: Task) => setTasks([...tasks, data])} length={Math.max(...tasks.map(t => t.id))}/>
+        <div style={{width: "80%", margin: "auto"}}>
+            <div className={"w-1/6 mb-5"}>
+                <label htmlFor="repetitions">
+                    Hiperperiodos
+                    <Input type={"number"} id={"repetitions"} value={repetitions}
+                           onChange={(e) => setRepetitions(Number(e.target.value))}/>
+                </label>
+            </div>
+            <div>
+                <Form
+                    onAdd={(data: Omit<Task, 'id'>) => setTasks([...tasks, {
+                        ...data,
+                        id: Math.max(...tasks.map(t => t.id)) + 1
+                    }])}/>
+            </div>
+
+
             {tasks.length ? (
-                <div  className={"flex w-full"}>
-                    <EDFBar tasks={tasks} />
+                <div className={"flex w-full"}>
+                    <EDFBar tasks={tasks} repetitions={repetitions}/>
                     <div className={"w-1/6"}>
-                        <List tasks={tasks.sort( (a, b) => b.deadline - a.deadline)} onRemove={handleRemove} />
+                        <List tasks={tasks.sort((a, b) => b.deadline - a.deadline)} onRemove={handleRemove}/>
                     </div>
                 </div>
             ) : <p> Adicione uma tarefa </p>}
+
         </div>
     );
 };
