@@ -77,7 +77,7 @@ function RmsBar({tasks, repetitions}: {tasks: Task[], repetitions: number}) {
         labels: Array.from({ length: hyperperiod }, (_, i) => i + 1), // X-axis labels (time)
         datasets: tasks.map((task) => ({
             label: `Task ${task.id}`,
-            data: timeline.map((entry) => (entry?.task === task.id ? 1 : 0)), // Y-axis data
+            data: timeline.map((entry) => (entry?.task === task.id ? 0.2 : 0)), // Y-axis data
             backgroundColor: timeline.map((entry) =>
                 entry?.task === task.id && entry.isLate ? "red" : task.color
             ),
