@@ -20,12 +20,12 @@ function Form(props: FormProps) {
         <form className={"flex w-full justify-between bg-gray-300 p-5 mb-5"}>
             <label htmlFor="executionTime">
                 Execution time
-                <Input type="number" id={"executionTime"} placeholder={"executionTime"} defaultValue={task.executionTime} onChange={e => handleUpdate("executionTime", Number(e.target.value))}/>
+                <Input type="number" id={"executionTime"} min={1} placeholder={"executionTime"} defaultValue={task.executionTime} onChange={e => handleUpdate("executionTime", Number(e.target.value))}/>
             </label>
 
             <label htmlFor="deadline">
                 Deadline
-                <Input type="number" id={"deadline"} placeholder={"deadline"} defaultValue={task.deadline} onChange={e => handleUpdate("deadline", Number(e.target.value))}/>
+                <Input type="number" id={"deadline"} min={1} placeholder={"deadline"} defaultValue={task.deadline} onChange={e => handleUpdate("deadline", Number(e.target.value))}/>
             </label>
 
             <label htmlFor="deadline">

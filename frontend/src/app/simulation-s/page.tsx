@@ -1,40 +1,49 @@
 'use client'
 
 
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { Chart, BarController, BarElement, LinearScale, CategoryScale, Tooltip } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
-import {Task} from "@/app/types";
-import Form from "@/app/shared/form";
-import List from "@/app/shared/list";
-import {data} from "@/app/requests/all/fixtures";
-import {ChartData} from "@/utils";
-import EDFBar from "@/app/simulation-n/EDFBar";
 import {Input} from "@/components/ui/input";
+import Form from "@/app/shared/form";
+import {Task} from "@/app/types";
+import EDFBar from "@/app/simulation-n/EDFBar";
+import List from "@/app/shared/list";
+import RMSBar from "@/app/simulation-s/RMSBar"; // Import annotation plugin
 
 // Register Chart.js components
 Chart.register(BarController, BarElement, LinearScale, CategoryScale, Tooltip, annotationPlugin);
 
+// Function to calculate the least common multiple (LCM) of two numbers
+const lcm = (a, b) => {
+    const gcd = (x, y) => (y === 0 ? x : gcd(y, x % y));
+    return (a * b) / gcd(a, b);
+};
 
+// Function to calculate the hyperperiod (LCM of all task deadlines)
+const calculateHyperperiod = (tasks) => {
+    return tasks.map((task) => task.deadline).reduce((acc, deadline) => lcm(acc, deadline), 1);
+};
 
 const App = () => {
-
-    const [repetitions, setRepetitions] = useState(1);
-    // Define tasks: (execution time, deadline)
     const t: Task[] = [
-        { id: 1, executionTime: 2, deadline: 4, color: "blue" },
-        { id: 2, executionTime: 3, deadline: 5, color: "green" },
+        { id: 1, executionTime: 1, deadline: 4, color: "orange" },
+        { id: 2, executionTime: 2, deadline: 6, color: "blue" },
+        { id: 3, executionTime: 3, deadline: 12, color: "green" },
+
     ];
-
+    // Define tasks: (execution time, deadline)
     const [tasks, setTasks] = useState<Task[]>(t);
-
+    const [repetitions, setRepetitions] = useState(1);
 
     const handleRemove = (id: number) => {
         if(tasks.length > 1){
             setTasks([...tasks.filter(t=> t.id !== id)])
         }
     }
+
+
 
     return (
         <div style={{width: "80%", margin: "auto"}}>
@@ -56,7 +65,7 @@ const App = () => {
 
             {tasks.length ? (
                 <div className={"flex w-full"}>
-                    <EDFBar tasks={tasks} repetitions={repetitions}/>
+                    <RMSBar tasks={tasks} repetitions={repetitions}/>
                     <div className={"w-1/6"}>
                         <List tasks={tasks.sort((a, b) => b.deadline - a.deadline)} onRemove={handleRemove}/>
                     </div>
