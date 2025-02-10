@@ -20,7 +20,6 @@ import {ArrowUpDown, ChevronDown, MoreHorizontal, SlidersHorizontal} from "lucid
 
 import {Button} from "@/components/ui/button"
 import {Checkbox} from "@/components/ui/checkbox"
-import { redirect } from 'next/navigation'
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -74,34 +73,19 @@ const columns: ColumnDef<Request>[] = [
         ),
     },
     {
-        accessorKey: "registration",
+        accessorKey: "shortDescription",
         header: ({column}) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Matricula
+                    Descrição
                     <ArrowUpDown/>
                 </Button>
             )
         },
-        cell: ({row}) => <div className="lowercase font-mono">{row.getValue("registration")}</div>,
-    },
-    {
-        accessorKey: "fullName",
-        header: ({column}) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Aluno
-                    <ArrowUpDown/>
-                </Button>
-            )
-        },
-        cell: ({row}) => <div className="text-left font-medium">{row.getValue("fullName")}</div>,
+        cell: ({row}) => <div className="font-mono uppercase">{row.getValue("shortDescription")}</div>,
     },
     {
         accessorKey: "status",
@@ -164,9 +148,9 @@ const columns: ColumnDef<Request>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => redirect("/requests/validate")}
+                            onClick={() => navigator.clipboard.writeText(payment.id)}
                         >
-                            { status === "APPROVED" ? "Visualizar" : "Avaliar"}
+                            Visualizar
                         </DropdownMenuItem>
                         {/*<DropdownMenuSeparator />*/}
                         {/*<DropdownMenuItem>View customer</DropdownMenuItem>*/}
@@ -213,16 +197,17 @@ export default function Requests() {
                 <div className={"w-full flex items-center justify-between"}>
 
                     <div className={"w-4/5"}>
-                        <h1 className={"text-5xl font-bold my-5"}>Solicitações</h1>
+                        <h1 className={"text-5xl font-bold my-5"}>Minhas Solicitações</h1>
                     </div>
+
 
                 </div>
                 <div className="flex items-center py-4">
                     <Input
                         placeholder="Filtro "
-                        value={(table.getColumn("fullName")?.getFilterValue() as string) ?? ""}
+                        value={(table.getColumn("shortDescription")?.getFilterValue() as string) ?? ""}
                         onChange={(event) => {
-                            table.getColumn("fullName")?.setFilterValue(event.target.value)
+                            table.getColumn("shortDescription")?.setFilterValue(event.target.value)
                         }
                         }
                         className="max-w-sm"
@@ -329,6 +314,7 @@ export default function Requests() {
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
