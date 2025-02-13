@@ -42,6 +42,7 @@ import {Card} from "@/components/ui/card";
 import OlderRequests from "@/app/requests/new/older-requests";
 import {Progress} from "@/components/ui/progress";
 import AppBar from "@/components/app-bar";
+import {redirect} from "next/navigation";
 
 const formSchema = z.object({
     category: z.string(),
@@ -313,8 +314,9 @@ function NewRequest(props: any) {
 
                             <div className={"flex flex-row justify-end mt-5"}>
                                 <Button type="submit" className={"mr-5"}>Anexar Comprovantes</Button>
-                                <Button type="submit">Submeter</Button>
-
+                                <Button type="button" onClick={() => redirect(
+                                    "/requests/my"
+                                )}>Submeter</Button>
                             </div>
                         </Card>
 
