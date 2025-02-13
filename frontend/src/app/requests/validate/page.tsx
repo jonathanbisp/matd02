@@ -352,11 +352,11 @@ function NewRequest(props: any) {
                                     <Link href={"/requests/all"} >
                                         <Card className="w-full p-4 flex flex-row items-center shadow-md">
                                             <CardHeader className="pr-4">
-                                                <CircleCheckBig className="w-16 h-16 text-primary text-green-500" />
+                                                <CircleCheckBig className="w-16 h-16 text-primary text-green-600" color={"green"} />
                                             </CardHeader>
                                             <CardContent className="flex flex-col">
-                                                <CardTitle className="text-lg font-semibold text-green-500">{"Aprovar Solicitação"}</CardTitle>
-                                                <p className="text-sm text-green-500">{"Após aprovação não será possível desfazer essa ação."}</p>
+                                                <CardTitle className="text-lg font-semibold text-green-600">{"Aprovar Solicitação"}</CardTitle>
+                                                <p className="text-sm text-green-600">{"Após aprovação não será possível desfazer essa ação."}</p>
                                             </CardContent>
                                         </Card>
                                     </Link>
@@ -366,11 +366,11 @@ function NewRequest(props: any) {
                                     <Link href={"/requests/all"}>
                                         <Card className="w-full p-4 flex flex-row items-center shadow-md">
                                             <CardHeader className="pr-4">
-                                                <Ban className="w-16 h-16 text-primary text-red-500"/>
+                                                <Ban className="w-16 h-16 text-primary text-red-600"/>
                                             </CardHeader>
                                             <CardContent className="flex flex-col">
-                                                <CardTitle className="text-lg font-semibold text-red-500">{"Negar Solicitação"}</CardTitle>
-                                                <p className="text-sm text-red-500">{"Após recusar não será possível desfazer essa ação."}</p>
+                                                <CardTitle className="text-lg font-semibold text-red-600">{"Negar Solicitação"}</CardTitle>
+                                                <p className="text-sm text-red-600">{"Após recusar não será possível desfazer essa ação."}</p>
                                             </CardContent>
                                         </Card>
                                     </Link>
