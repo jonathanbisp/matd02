@@ -145,10 +145,9 @@ function NewRequest(props: any) {
                                                             <SelectLabel>Subcategoria</SelectLabel>
                                                             <SelectItem value="apple">Eventos técnicos
                                                                 cientificos</SelectItem>
-                                                            <SelectItem value="banana">Banana</SelectItem>
-                                                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                                                            <SelectItem value="grapes">Grapes</SelectItem>
-                                                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                                            <SelectItem value="banana">Disc. Optativa</SelectItem>
+                                                            <SelectItem value="blueberry">Projeto Integrador</SelectItem>
+                                                            <SelectItem value="grapes">Estágio Supervisionado</SelectItem>
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
@@ -174,10 +173,6 @@ function NewRequest(props: any) {
                                                             <SelectLabel>Atividade</SelectLabel>
                                                             <SelectItem value="apple">Associação em sociedade cientifica
                                                                 (ex. SBC, IEEE, ACM).</SelectItem>
-                                                            <SelectItem value="banana">Banana</SelectItem>
-                                                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                                                            <SelectItem value="grapes">Grapes</SelectItem>
-                                                            <SelectItem value="pineapple">Pineapple</SelectItem>
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
