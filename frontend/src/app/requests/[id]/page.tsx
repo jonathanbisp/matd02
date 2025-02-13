@@ -1,4 +1,4 @@
-    "use client"
+"use client"
 
 import React from 'react';
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
@@ -35,17 +35,19 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import {Ban, CalendarIcon, CircleCheckBig, Icon} from "lucide-react";
+import {CalendarIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Textarea} from "@/components/ui/textarea";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card} from "@/components/ui/card";
 import OlderRequests from "@/app/requests/new/older-requests";
 import {Progress} from "@/components/ui/progress";
-    import AppBar from "@/components/app-bar";
-    import Link from "next/link";
+import AppBar from "@/components/app-bar";
+import {redirect} from "next/navigation";
 
 const formSchema = z.object({
     category: z.string(),
+    start: z.date(),
+    end: z.date(),
     subcategory: z.string(),
     activity: z.string(),
     activityHours: z.number(),
@@ -56,7 +58,9 @@ const formSchema = z.object({
 })
 
 function NewRequest(props: any) {
-    const [date, setDate] = React.useState<Date | undefined>(new Date())
+    const [start, setStart] = React.useState<Date | undefined>(new Date())
+    const [end, setEnd] = React.useState<Date | undefined>(new Date())
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -68,8 +72,7 @@ function NewRequest(props: any) {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+
         console.log(values)
     }
     return (
@@ -95,7 +98,7 @@ function NewRequest(props: any) {
                                     <FormItem>
                                         <FormLabel className={"font-semibold"}>Descrição Curta</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="" {...field} value={"VACINA COVID 2020"} disabled />
+                                            <Input placeholder="" {...field}  disabled value={"VACINA COVID"}/>
                                         </FormControl>
                                         <FormMessage/>
                                     </FormItem>
@@ -112,7 +115,7 @@ function NewRequest(props: any) {
                                             <FormControl>
                                                 <RadioGroup defaultValue="comfortable">
                                                     <div className="flex items-center space-x-2">
-                                                        <RadioGroupItem value="default" id="r1" disabled checked={true}/>
+                                                        <RadioGroupItem value="default" id="r1" checked/>
                                                         <Label htmlFor="category">Complementar</Label>
                                                     </div>
                                                     <div className="flex items-center space-x-2">
@@ -133,12 +136,12 @@ function NewRequest(props: any) {
                                         <FormItem className={"w-2/5"}>
                                             <FormLabel className={"font-semibold"}>Subcategoria</FormLabel>
                                             <FormControl>
-                                                <Select disabled value={"apple"}>
+                                                <Select value={"apple"} disabled>
                                                     <SelectTrigger className="w-[300px]">
                                                         <SelectValue placeholder="Selecione uma subcategoria"/>
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectGroup>
+                                                        <SelectGroup >
                                                             <SelectLabel>Subcategoria</SelectLabel>
                                                             <SelectItem value="apple">Eventos técnicos
                                                                 cientificos</SelectItem>
@@ -162,7 +165,7 @@ function NewRequest(props: any) {
                                         <FormItem className={"w-2/5"}>
                                             <FormLabel className={"font-semibold"}>Atividade</FormLabel>
                                             <FormControl>
-                                                <Select disabled value={"apple"}>
+                                                <Select value={"apple"} disabled>
                                                     <SelectTrigger className="w-[300px]">
                                                         <SelectValue placeholder="Selecione uma atividade"/>
                                                     </SelectTrigger>
@@ -188,7 +191,7 @@ function NewRequest(props: any) {
                             <div className={"flex flex-row justify-between mt-5"}>
                                 <FormField
                                     control={form.control}
-                                    name="activity"
+                                    name="start"
                                     render={({field}) => (
                                         <FormItem className={"w-1/4"}>
                                             <FormLabel className={"font-semibold"}>Inicio da Atividade</FormLabel>
@@ -200,11 +203,11 @@ function NewRequest(props: any) {
                                                             variant={"outline"}
                                                             className={cn(
                                                                 "w-[280px] justify-start text-left font-normal",
-                                                                !date && "text-muted-foreground"
+                                                                !start && "text-muted-foreground"
                                                             )}
                                                         >
                                                             <CalendarIcon/>
-                                                            {date ? format(date, "PPP") :
+                                                            {start ? format(start, "PPP") :
                                                                 <span>Selecione uma data</span>}
                                                         </Button>
                                                     </PopoverTrigger>
@@ -212,8 +215,8 @@ function NewRequest(props: any) {
                                                         <Calendar
                                                             disabled
                                                             mode="single"
-                                                            selected={date}
-                                                            onSelect={setDate}
+                                                            selected={start}
+                                                            onSelect={setStart}
                                                         />
                                                     </PopoverContent>
                                                 </Popover>
@@ -225,7 +228,7 @@ function NewRequest(props: any) {
 
                                 <FormField
                                     control={form.control}
-                                    name="activity"
+                                    name="end"
                                     render={({field}) => (
                                         <FormItem className={"w-1/4"}>
                                             <FormLabel className={"font-semibold"}>Fim da Atividade</FormLabel>
@@ -237,20 +240,19 @@ function NewRequest(props: any) {
                                                             variant={"outline"}
                                                             className={cn(
                                                                 "w-[280px] justify-start text-left font-normal",
-                                                                !date && "text-muted-foreground"
+                                                                !end && "text-muted-foreground"
                                                             )}
                                                         >
                                                             <CalendarIcon/>
-                                                            {date ? format(date, "PPP") :
-                                                                <span>Selecione uma data</span>}
+                                                            {end ? format(end, "PPP") : <span>Selecione uma data</span>}
                                                         </Button>
                                                     </PopoverTrigger>
                                                     <PopoverContent className="w-auto p-0">
                                                         <Calendar
                                                             disabled
                                                             mode="single"
-                                                            selected={date}
-                                                            onSelect={setDate}
+                                                            selected={end}
+                                                            onSelect={setEnd}
                                                         />
                                                     </PopoverContent>
                                                 </Popover>
@@ -269,7 +271,7 @@ function NewRequest(props: any) {
                                                 <FormLabel className={"font-semibold"}>Horas da atividade</FormLabel>
                                                 <br/>
                                                 <FormControl className={"w-[100px]"}>
-                                                    <Input type="number" id="activityHours" placeholder="00" value={10} disabled/>
+                                                    <Input type="number" id="activityHours" placeholder="00" disabled/>
                                                 </FormControl>
                                                 <FormMessage/>
                                             </FormItem>
@@ -284,7 +286,7 @@ function NewRequest(props: any) {
                                                 <FormLabel className={"font-semibold"}>Horas solicitadas</FormLabel>
                                                 <br/>
                                                 <FormControl className={"w-[100px]"}>
-                                                    <Input type="number" id="requestHours" placeholder="5" disabled/>
+                                                    <Input type="number" id="requestHours" placeholder="00" disabled/>
                                                 </FormControl>
                                                 <FormMessage/>
                                             </FormItem>
@@ -303,89 +305,27 @@ function NewRequest(props: any) {
                                             <FormLabel className={"font-semibold"}>Descrição longa</FormLabel>
                                             <br/>
                                             <FormControl className={"w-[600px]"}>
-                                                <Textarea
-                                                    value={"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}
-                                                    placeholder="Uma longa descrição da atividade..." disabled/>
+                                                <Textarea placeholder="Uma longa descrição da atividade..."
+                                                      disabled
+                                                value={"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}/>
                                             </FormControl>
                                             <FormMessage/>
+                                            <span className={"text-xs text-gray-500"}>Apenas 500 caracteres.</span>
                                         </FormItem>
                                     )}
                                 />
                             </div>
 
-                            <div className={"mt-5"}>
-                                <Button type="button">Ver Comprovantes</Button>
-
+                            <div className={"flex flex-row justify-end mt-5"}>
+                                <Button type="submit" className={"mr-5"} disabled>Anexar Comprovantes</Button>
                             </div>
                         </Card>
-
-
-                        <Card className={"px-10 py-5"}>
-                            <FormLabel className={"font-semibold"}>Ultimas Solicitações</FormLabel>
-                            <OlderRequests/>
-                        </Card>
-
-
-                        <Card className={"px-10 py-5"}>
-                            <FormLabel className={"font-semibold"}>Carga Horária Contabilizada</FormLabel>
-                            <Progress value={75}/>
-
-                            <span className={"text-sm text-gray-500"}>75 / 100 Horas</span>
-                        </Card>
-
-                        <Card className={"px-10 py-5 flex "}>
-                            <div className={"w-5/6 p-2"}>
-                                <FormLabel className={"font-semibold"}>Observações</FormLabel>
-                                <Textarea/>
-
-                            </div>
-                            <div className={"w-1/6 p-2"}>
-                                <FormLabel className={"font-semibold"}>Horas aproveitadas</FormLabel>
-                                <Input type={"number"} min={1}/>
-                            </div>
-                        </Card>
-
-
-                        <div className="w-full">
-                            <div className="flex flex-row justify-between">
-                                <div className={"w-1/2 pr-2"}>
-                                    <Link href={"/requests/all"} >
-                                        <Card className="w-full p-4 flex flex-row items-center shadow-md">
-                                            <CardHeader className="pr-4">
-                                                <CircleCheckBig className="w-16 h-16 text-primary text-green-500" />
-                                            </CardHeader>
-                                            <CardContent className="flex flex-col">
-                                                <CardTitle className="text-lg font-semibold text-green-500">{"Aprovar Solicitação"}</CardTitle>
-                                                <p className="text-sm text-green-500">{"Após aprovação não será possível desfazer essa ação."}</p>
-                                            </CardContent>
-                                        </Card>
-                                    </Link>
-                                </div>
-
-                                <div className={"w-1/2 pl-2"}>
-                                    <Link href={"/requests/all"}>
-                                        <Card className="w-full p-4 flex flex-row items-center shadow-md">
-                                            <CardHeader className="pr-4">
-                                                <Ban className="w-16 h-16 text-primary text-red-500"/>
-                                            </CardHeader>
-                                            <CardContent className="flex flex-col">
-                                                <CardTitle className="text-lg font-semibold text-red-500">{"Negar Solicitação"}</CardTitle>
-                                                <p className="text-sm text-red-500">{"Após recusar não será possível desfazer essa ação."}</p>
-                                            </CardContent>
-                                        </Card>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={"mt-20"}></div>
 
                     </form>
                 </Form>
             </div>
         </>
-
     );
 }
 
-    export default NewRequest;
+export default NewRequest;

@@ -42,6 +42,7 @@ import {Card} from "@/components/ui/card";
 import OlderRequests from "@/app/requests/new/older-requests";
 import {Progress} from "@/components/ui/progress";
 import AppBar from "@/components/app-bar";
+import {redirect} from "next/navigation";
 
 const formSchema = z.object({
     category: z.string(),
@@ -144,10 +145,9 @@ function NewRequest(props: any) {
                                                             <SelectLabel>Subcategoria</SelectLabel>
                                                             <SelectItem value="apple">Eventos técnicos
                                                                 cientificos</SelectItem>
-                                                            <SelectItem value="banana">Banana</SelectItem>
-                                                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                                                            <SelectItem value="grapes">Grapes</SelectItem>
-                                                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                                            <SelectItem value="banana">Disc. Optativa</SelectItem>
+                                                            <SelectItem value="blueberry">Projeto Integrador</SelectItem>
+                                                            <SelectItem value="grapes">Estágio Supervisionado</SelectItem>
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
@@ -173,10 +173,6 @@ function NewRequest(props: any) {
                                                             <SelectLabel>Atividade</SelectLabel>
                                                             <SelectItem value="apple">Associação em sociedade cientifica
                                                                 (ex. SBC, IEEE, ACM).</SelectItem>
-                                                            <SelectItem value="banana">Banana</SelectItem>
-                                                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                                                            <SelectItem value="grapes">Grapes</SelectItem>
-                                                            <SelectItem value="pineapple">Pineapple</SelectItem>
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
@@ -313,8 +309,9 @@ function NewRequest(props: any) {
 
                             <div className={"flex flex-row justify-end mt-5"}>
                                 <Button type="submit" className={"mr-5"}>Anexar Comprovantes</Button>
-                                <Button type="submit">Submeter</Button>
-
+                                <Button type="button" onClick={() => redirect(
+                                    "/requests/my"
+                                )}>Submeter</Button>
                             </div>
                         </Card>
 

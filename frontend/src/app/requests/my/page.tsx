@@ -40,6 +40,7 @@ import {
 import {formatRelativeDate, statusToBadge, statusToIcon} from "@/helpers";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import AppBar from "@/components/app-bar";
+import {redirect} from "next/navigation";
 
 
 const columns: ColumnDef<Request>[] = [
@@ -148,7 +149,7 @@ const columns: ColumnDef<Request>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => redirect("/requests/1")}
                         >
                             Visualizar
                         </DropdownMenuItem>
